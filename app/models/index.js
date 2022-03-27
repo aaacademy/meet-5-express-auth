@@ -20,4 +20,19 @@ db.sequelize = sequelize;
 
 // define semua models yang ada pada aplikasi
 db.books = require('./book.model')(sequelize, Sequelize);
+db.role = require('./role.model')(sequelize, Sequelize);
+db.user = require('./user.model')(sequelize, Sequelize);
+
+db.role.belongsToMany(db.user, {
+    through: 'user_roles',
+    foreygnKey: 'roleId',
+    otherKey: 'userId'
+});
+db.user.belongsToMany(db.role, {
+    through: 'user_roles',
+    foreygnKey: 'userId',
+    otherKey: 'roleId'
+});
+db.ROLES = ['user', 'admin', "moderator"];
+
 module.exports = db;
